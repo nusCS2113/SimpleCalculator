@@ -1,9 +1,6 @@
 package com.calc.logic.command;
 
-import static com.calc.ui.CalculatorUI;
-
 public class Command {
-
     private String commandWord;
     private Number operand1;
     private Number operand2;
@@ -18,10 +15,8 @@ public class Command {
     public void execute() {
         performCalculation(commandWord, operand1.intValue(), operand2.intValue());
     }
-    private void performCalculation(String operation, Number a, Number b) {
-        clearScreen();
-        showHeader();
 
+    private void performCalculation(String operation, Number a, Number b) {
         String record;
 
         try {
@@ -56,8 +51,6 @@ public class Command {
         } catch (ArithmeticException e) {
             System.out.println("\nError: " + e.getMessage());
         }
-
-        // pause("\nPress Enter to continue...");
     }
 
     private void performCalculation(String operation) {
