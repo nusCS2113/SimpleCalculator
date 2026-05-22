@@ -1,7 +1,10 @@
 package com.calc.ui;
 
 import com.calc.calculator.Calculator;
+import com.calc.exceptions.InvalidCommandException;
+import com.calc.exceptions.InvalidCommandFormatException;
 import com.calc.history.HistoryManager;
+import com.calc.logic.command.CommandHandler;
 import com.calc.storage.FileStorage;
 
 import java.util.Scanner;
@@ -12,31 +15,45 @@ public class CalculatorUI {
     private final HistoryManager historyManager = new HistoryManager();
     private final FileStorage fileStorage = new FileStorage("calculator_history.txt");
 
+    public void help() {
+        System.out.printf("%s%n", "Available commands:");
+        System.out.printf("%s%n", "1. Add - Adds two numbers: format add 1 and 2%n");
+        System.out.println("2. Subtract - Subtracts second number from first: format subtract 5 from 10");
+        System.out.println("3. Multiply - Multiplies two numbers: format multiply 3 and 4");
+        System.out.println("4. Divide - Divides first number by second: format divide 10 by 2");
+        System.out.println("5. View History - Displays calculation history");
+        System.out.println("6. Help - Displays help message");
+        System.out.println("7. Exit - Closes the calculator");
+    }
+
     public void start() {
         boolean running = true;
+
+        CommandHandler commandHandler = new CommandHandler();
 
         while (running) {
             clearScreen();
             showHeader();
 
-            System.out.println("1. Add");
-            System.out.println("2. Subtract");
-            System.out.println("3. Multiply");
-            System.out.println("4. Divide");
-            System.out.println("5. View History");
-            System.out.println("6. Exit");
-            System.out.print("\nChoose an option: ");
+            String commandString = readInputFromTerminal();
 
-            int choice = readInt();
+            if (commandString.equals("help")) {
+                help();
+                continue;
+            }
 
-            switch (choice) {
-            case 1 -> performCalculation("sum");
-            case 2 -> performCalculation("difference");
-            case 3 -> performCalculation("product");
-            case 4 -> performCalculation("fraction");
-            case 5 -> showHistory();
-            case 6 -> running = false;
-            default -> pause("Invalid option. Press Enter to continue...");
+            if (commandString.equalsIgnoreCase("exit")) {
+                running = false;
+            }
+
+            try {
+                commandHandler.handleCommand(commandString);
+            } catch (InvalidCommandException e) {
+                System.out.println("Invalid command encountered: " + e.getMessage());
+                running = false;
+            } catch (InvalidCommandFormatException e) {
+                System.out.println("Invalid command format: " + e.getMessage());
+                running = false;
             }
         }
 
@@ -126,6 +143,15 @@ public class CalculatorUI {
             scanner.next();
         }
         return scanner.nextInt();
+    }
+
+    //ignore blank lines and read next line
+    private String readInputFromTerminal() {
+        while (scanner.hasNextLine() && scanner.nextLine().isBlank()) {
+            // ignore blank lines
+        }
+        scanner.nextLine();
+        return scanner.nextLine();
     }
 
     private void pause(String message) {
