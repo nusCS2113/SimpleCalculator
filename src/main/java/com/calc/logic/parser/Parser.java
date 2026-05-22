@@ -4,6 +4,7 @@ import com.calc.exceptions.InvalidCommandException;
 import com.calc.exceptions.InvalidCommandFormatException;
 import com.calc.ui.CalculatorUI;
 import com.calc.logic.command.Command;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.HashMap;
 
@@ -25,9 +26,6 @@ public class Parser {
     public Command parseCommand(String command)
             throws InvalidCommandFormatException, InvalidCommandException {
 
-        HashMap<Number, Boolean> operand1 = new HashMap<>();
-        HashMap<Number, Boolean> operand2 = new HashMap<>();
-
         command = command.trim().replaceAll("\\s+", " ");
         String[] tokens = command.toLowerCase().split(" ");
         if (tokens.length < 4) {
@@ -35,9 +33,12 @@ public class Parser {
         }
 
         String operation = tokens[0];
-        operand1 = parseNumber(tokens[1]);
-        operand2 = parseNumber(tokens[3]);
+        ImmutablePair<Number, Boolean> operand1  = parseNumber(tokens[1]);
+        ImmutablePair<Number, Boolean> operand2 = parseNumber(tokens[3]);
 
+
+        if (!operand1.right) {
+        }
 
         Command cmd;
 
@@ -47,13 +48,13 @@ public class Parser {
                 cmd = new Command(operation, operand1.get(0), operand2.get(0));
             }
             case "subtract" -> {
-                cmd = new Command(operation, operand1, operand2);
+                //cmd = new Command(operation, operand1, operand2);
             }
             case "multiply" -> {
-                cmd = new Command(operation, operand1, operand2);
+//                cmd = new Command(operation, operand1, operand2);
             }
             case "divide" -> {
-                cmd = new Command(operation, operand1, operand2);
+//                cmd = new Command(operation, operand1, operand2);
             }
             default -> {
                 throw new InvalidCommandException(
@@ -81,16 +82,14 @@ public class Parser {
         }
     }
 
-    private HashMap<Number, Boolean> parseNumber(String number)
+    private ImmutablePair<Number, Boolean> parseNumber(String number)
             throws InvalidCommandFormatException {
         try {
             if (isInteger(number)) {
-                HashMap<Number, Boolean> result = new HashMap<>();
-                result.put(Integer.parseInt(number), true);
+                ImmutablePair<Number, Boolean> result = new ImmutablePair<>(Integer.parseInt(number), true);
                 return result;
             } else {
-                HashMap<Number, Boolean> result = new HashMap<>();
-                result.put(Double.parseDouble(number), true);
+                ImmutablePair<Number, Boolean> result = new ImmutablePair<>(Double.parseDouble(number), false);
                 return result;
             }
         } catch (NumberFormatException e) {
