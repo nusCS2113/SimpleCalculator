@@ -43,6 +43,7 @@ public class CalculatorUI {
             }
 
             if (commandString.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting...");
                 running = false;
             }
 
