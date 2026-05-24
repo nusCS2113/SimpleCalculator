@@ -15,8 +15,8 @@ public class CalculatorUI {
     private final Scanner scanner = new Scanner(System.in);
     private final Calculator calculator = new Calculator();
 
-    public CalculatorUI(HistoryManager historyManager,  FileStorage fileStorage) {
-        this.historyManager = historyManager;
+    public CalculatorUI(FileStorage fileStorage) {
+        this.historyManager = HistoryManager.getInstance();
         this.fileStorage = fileStorage;
     }
 
@@ -26,7 +26,7 @@ public class CalculatorUI {
         System.out.println("2. Subtract - Subtracts second number from first: format subtract 5 from 10");
         System.out.println("3. Multiply - Multiplies two numbers: format multiply 3 and 4");
         System.out.println("4. Divide - Divides first number by second: format divide 10 by 2");
-        System.out.println("5. View History - Displays calculation history");
+        System.out.println("5. ViewHistory - Displays calculation history");
         System.out.println("6. Help - Displays help message");
         System.out.println("7. Exit - Closes the calculator");
     }
@@ -34,7 +34,7 @@ public class CalculatorUI {
     public void runRepl() {
         boolean running = true;
 
-        CommandHandler commandHandler = new CommandHandler(historyManager, fileStorage);
+        CommandHandler commandHandler = new CommandHandler(fileStorage);
 
         while (running) {
             clearScreen();
