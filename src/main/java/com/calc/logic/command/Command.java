@@ -1,47 +1,50 @@
 package com.calc.logic.command;
 
+import com.calc.calculator.Calculator;
+import com.calc.exceptions.InvalidCommandException;
+
 public class Command {
     private String commandWord;
-    private Number operand1;
-    private Number operand2;
+    private double operand1;
+    private double operand2;
+    private String record;
     private String inputCommandString;
+    private double result;
+    private final Calculator calculator = new Calculator();
 
-    public Command(String commandWord, Number operand1, Number operand2) {
+    public Command(String commandWord, double operand1, double operand2) {
         this.commandWord = commandWord;
         this.operand1 = operand1;
         this.operand2 = operand2;
     }
 
-    public void execute() {
-        performCalculation(commandWord, operand1.intValue(), operand2.intValue());
+    public String execute() throws InvalidCommandException {
+        performCalculation(commandWord, operand1, operand2);
+        return record;
     }
 
-    private void performCalculation(String operation, Number a, Number b) {
-        String record;
+    private void performCalculation(String operation, double a, double b)
+            throws InvalidCommandException {
 
         try {
             switch (operation) {
-            case "sum" -> {
-                int result = calculator.sum(a, b);
-                record = a + " + " + b + " = " + result;
+            case "add" -> {
+                result = calculator.sum(a, b);
             }
-            case "difference" -> {
-                int result = calculator.difference(a, b);
-                record = a + " - " + b + " = " + result;
+            case "subtract" -> {
+                result = calculator.difference(b, a);
             }
-            case "product" -> {
-                int result = calculator.product(a, b);
-                record = a + " * " + b + " = " + result;
+            case "multiply" -> {
+                result = calculator.product(a, b);
             }
-            case "fraction" -> {
-                String result = calculator.fraction(a, b);
-                record = a + " / " + b + " = " + result;
+            case "divide" -> {
+                result = calculator.fraction(a, b);
             }
             default -> {
-                pause("Unknown operation. Press Enter to continue...");
-                return;
+                throw new InvalidCommandException("Unknown command: " + operation);
             }
             }
+            this.record = encodeResult(operation, a, b, result);
         } catch (ArithmeticException e) {
             System.out.println("\nError: " + e.getMessage());
         }
