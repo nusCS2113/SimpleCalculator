@@ -42,63 +42,12 @@ public class Command {
                 return;
             }
             }
-
-            System.out.println("\nResult: " + record);
-
-            historyManager.addRecord(record);
-            fileStorage.saveRecord(record);
-
         } catch (ArithmeticException e) {
             System.out.println("\nError: " + e.getMessage());
         }
     }
 
-    private void performCalculation(String operation) {
-        clearScreen();
-        showHeader();
-
-        System.out.print("Enter first number: ");
-        int a = readInt();
-
-        System.out.print("Enter second number: ");
-        int b = readInt();
-
-        String record;
-
-        try {
-            switch (operation) {
-            case "sum" -> {
-                int result = calculator.sum(a, b);
-                record = a + " + " + b + " = " + result;
-            }
-            case "difference" -> {
-                int result = calculator.difference(a, b);
-                record = a + " - " + b + " = " + result;
-            }
-            case "product" -> {
-                int result = calculator.product(a, b);
-                record = a + " * " + b + " = " + result;
-            }
-            case "fraction" -> {
-                String result = calculator.fraction(a, b);
-                record = a + " / " + b + " = " + result;
-            }
-            default -> {
-                pause("Unknown operation. Press Enter to continue...");
-                return;
-            }
-            }
-
-            System.out.println("\nResult: " + record);
-
-            historyManager.addRecord(record);
-            fileStorage.saveRecord(record);
-
-        } catch (ArithmeticException e) {
-            System.out.println("\nError: " + e.getMessage());
         }
-
-        pause("\nPress Enter to continue...");
     }
 }
 
