@@ -65,7 +65,8 @@ public class Command {
         }
     }
 
-    private static String encodeResult(String operation, double aInput, double bInput, double result) {
+    private static String encodeResult(String operation, double aInput, double bInput, double result)
+            throws InvalidCommandException {
         String record = "Result of: ";
         String recordResult = result == Math.rint(result) ?
                 String.valueOf((int) result) : String.format("%.2f", result);
@@ -85,6 +86,9 @@ public class Command {
         }
         case "divide" -> {
             record += a + " / " + b + " = " + recordResult;
+        }
+        default -> {
+            throw new InvalidCommandException("Unknown command: " + operation);
         }
         }
         return record;
