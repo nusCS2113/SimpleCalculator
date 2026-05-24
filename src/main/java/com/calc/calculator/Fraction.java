@@ -1,26 +1,36 @@
 package com.calc.calculator;
 
 public class Fraction {
-    private final int numerator;
-    private final int denominator;
+    private double numerator;
+    private double denominator;
+    private double result;
 
-    public Fraction(int numerator, int denominator) {
+    public Fraction(double numerator, double denominator) {
         if (denominator == 0) {
             throw new ArithmeticException("Denominator cannot be zero.");
         }
 
-        int gcd = gcd(Math.abs(numerator), Math.abs(denominator));
+        if (numerator == Math.rint(numerator) || denominator == Math.rint(numerator)) {
+            int n = (int) numerator;
+            int d = (int) denominator;
 
-        int simplifiedNumerator = numerator / gcd;
-        int simplifiedDenominator = denominator / gcd;
+            int gcd = gcd(Math.abs(n), Math.abs(d));
 
-        if (simplifiedDenominator < 0) {
-            simplifiedNumerator *= -1;
-            simplifiedDenominator *= -1;
+            int simplifiedNumerator = n / gcd;
+            int simplifiedDenominator = d / gcd;
+
+            if (simplifiedDenominator < 0) {
+                simplifiedNumerator *= -1;
+                simplifiedDenominator *= -1;
+            }
+
+            this.numerator = simplifiedNumerator;
+            this.denominator = simplifiedDenominator;
+        } else {
+            this.numerator = numerator;
+            this.denominator = denominator;
         }
-
-        this.numerator = simplifiedNumerator;
-        this.denominator = simplifiedDenominator;
+        this.result = numerator / denominator;
     }
 
     private int gcd(int a, int b) {
@@ -36,6 +46,9 @@ public class Fraction {
     public String toString() {
         if (denominator == 1) {
             return String.valueOf(numerator);
+        }
+        if (result == Math.rint(result)) {
+            return String.valueOf(result);
         }
 
         return numerator + "/" + denominator;
