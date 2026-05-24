@@ -10,10 +10,15 @@ import com.calc.storage.FileStorage;
 import java.util.Scanner;
 
 public class CalculatorUI {
+    HistoryManager historyManager;
+    FileStorage fileStorage;
     private final Scanner scanner = new Scanner(System.in);
     private final Calculator calculator = new Calculator();
-    private final HistoryManager historyManager = new HistoryManager();
-    private final FileStorage fileStorage = new FileStorage("calculator_history.txt");
+
+    public CalculatorUI(HistoryManager historyManager,  FileStorage fileStorage) {
+        this.historyManager = historyManager;
+        this.fileStorage = fileStorage;
+    }
 
     public void help() {
         System.out.printf("%s%n", "Available commands:");
@@ -26,10 +31,10 @@ public class CalculatorUI {
         System.out.println("7. Exit - Closes the calculator");
     }
 
-    public void start() {
+    public void runRepl() {
         boolean running = true;
 
-        CommandHandler commandHandler = new CommandHandler();
+        CommandHandler commandHandler = new CommandHandler(historyManager, fileStorage);
 
         while (running) {
             clearScreen();
@@ -42,18 +47,22 @@ public class CalculatorUI {
                 continue;
             }
 
-            if (commandString.equalsIgnoreCase("exit")) {
+            if (commandString.equals("exit")) {
                 System.out.println("Exiting...");
                 running = false;
+                continue;
             }
 
             try {
-                commandHandler.handleCommand(commandString);
+                String result = commandHandler.handleCommand(commandString);
+                showResult(result);
             } catch (InvalidCommandException e) {
-                System.out.println("Invalid command encountered: " + e.getMessage());
+                String result= "Invalid command encountered: " + e.getMessage();
+                showResult(result);
                 running = false;
             } catch (InvalidCommandFormatException e) {
-                System.out.println("Invalid command format: " + e.getMessage());
+                String result= "Invalid command format: " + e.getMessage();
+                showResult(result);
                 running = false;
             }
         }
@@ -61,52 +70,10 @@ public class CalculatorUI {
         System.out.println("Calculator closed.");
     }
 
-    private void performCalculation(String operation) {
+    private void showResult(String result) {
         clearScreen();
         showHeader();
-
-        System.out.print("Enter first number: ");
-        int a = readInt();
-
-        System.out.print("Enter second number: ");
-        int b = readInt();
-
-        String record;
-
-        try {
-            switch (operation) {
-            case "sum" -> {
-                int result = calculator.sum(a, b);
-                record = a + " + " + b + " = " + result;
-            }
-            case "difference" -> {
-                int result = calculator.difference(a, b);
-                record = a + " - " + b + " = " + result;
-            }
-            case "product" -> {
-                int result = calculator.product(a, b);
-                record = a + " * " + b + " = " + result;
-            }
-            case "fraction" -> {
-                String result = calculator.fraction(a, b);
-                record = a + " / " + b + " = " + result;
-            }
-            default -> {
-                pause("Unknown operation. Press Enter to continue...");
-                return;
-            }
-            }
-
-            System.out.println("\nResult: " + record);
-
-            historyManager.addRecord(record);
-            fileStorage.saveRecord(record);
-
-        } catch (ArithmeticException e) {
-            System.out.println("\nError: " + e.getMessage());
-        }
-
-        pause("\nPress Enter to continue...");
+        System.out.printf("%s%n", result);
     }
 
     private void showHistory() {
@@ -146,12 +113,10 @@ public class CalculatorUI {
         return scanner.nextInt();
     }
 
-    //ignore blank lines and read next line
     private String readInputFromTerminal() {
-        while (scanner.hasNextLine() && scanner.nextLine().isBlank()) {
-            // ignore blank lines
+        while (!scanner.hasNextLine()) {
+            scanner.nextLine();
         }
-        scanner.nextLine();
         return scanner.nextLine();
     }
 
