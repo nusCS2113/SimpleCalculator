@@ -2,6 +2,7 @@ package com.calc.logic.command;
 
 import com.calc.calculator.Calculator;
 import com.calc.exceptions.InvalidCommandException;
+import com.calc.history.HistoryManager;
 
 public class Command {
     private String commandWord;
@@ -28,6 +29,11 @@ public class Command {
     }
 
     public String execute() throws InvalidCommandException {
+
+        if (commandWord.toLowerCase().contains("history")) {
+            record = getHistory();
+            return record;
+        }
         performCalculation(commandWord, operand1, operand2);
         return record;
     }
