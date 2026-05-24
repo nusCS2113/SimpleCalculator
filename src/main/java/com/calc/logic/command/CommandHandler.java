@@ -12,8 +12,8 @@ public class CommandHandler {
     private HistoryManager historyManager;
     private FileStorage fileStorage;
 
-    public CommandHandler(HistoryManager historyManager, FileStorage fileStorage) {
-        this.historyManager = historyManager;
+    public CommandHandler(FileStorage fileStorage) {
+        this.historyManager = HistoryManager.getInstance();
         this.fileStorage = fileStorage;
     }
 
@@ -23,7 +23,11 @@ public class CommandHandler {
         try {
             command = parser.parseCommand(input);
             result = command.execute();
-            historyManager.addRecord(result);
+            if (result.toLowerCase().contains("history")) {
+                historyManager.addRecord("viewHistory");
+            } else {
+                historyManager.addRecord(result);
+            }
         } catch (InvalidCommandFormatException e) {
             throw new InvalidCommandFormatException(e.getMessage());
         } catch (InvalidCommandException e) {
