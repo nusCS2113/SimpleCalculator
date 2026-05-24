@@ -47,8 +47,29 @@ public class Command {
         }
     }
 
+    private static String encodeResult(String operation, double aInput, double bInput, double result) {
+        String record = "Result of: ";
+        String recordResult = result == Math.rint(result) ?
+                String.valueOf((int) result) : String.format("%.2f", result);
+        String a = aInput == Math.rint(aInput) ?
+                String.valueOf((int) aInput) : String.valueOf(aInput);
+        String b = bInput == Math.rint(bInput) ?
+                String.valueOf((int) bInput) : String.valueOf(bInput);
+        switch (operation) {
+        case "add" -> {
+            record += a + " + " + b + " = " + recordResult;
         }
+        case "subtract" -> {
+            record += b + " - " + a + " = " + recordResult;
+        }
+        case "multiply" -> {
+            record += a + " * " + b + " = " + recordResult;
+        }
+        case "divide" -> {
+            record += a + " / " + b + " = " + recordResult;
+        }
+        }
+        return record;
     }
+
 }
-
-
