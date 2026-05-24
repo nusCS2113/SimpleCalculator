@@ -27,6 +27,11 @@ public class Parser {
             throws InvalidCommandException, InvalidCommandFormatException {
         String[] tokens = getTokens(command);
 
+        if (tokens[0].toLowerCase().contains("history")) {
+            Command cmd = new Command("viewHistory");
+            return cmd;
+        }
+
         if (tokens.length < 4) {
             throw new InvalidCommandFormatException("Invalid command format");
         }
