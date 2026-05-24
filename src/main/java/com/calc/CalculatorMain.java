@@ -9,7 +9,7 @@ public class CalculatorMain {
     static FileStorage fileStorage = new FileStorage("calculator_history.txt");
 
     public static void main(String[] args) {
-       run();
+        run();
     }
 
     public static void run() {
