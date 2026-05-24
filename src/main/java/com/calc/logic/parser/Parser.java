@@ -2,11 +2,11 @@ package com.calc.logic.parser;
 
 import com.calc.exceptions.InvalidCommandException;
 import com.calc.exceptions.InvalidCommandFormatException;
-import com.calc.ui.CalculatorUI;
 import com.calc.logic.command.Command;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import java.util.HashMap;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+import java.util.Arrays;
 
 /**
  * Command parser for the calculator application. This class is responsible for
@@ -24,49 +24,60 @@ import java.util.HashMap;
  */
 public class Parser {
     public Command parseCommand(String command)
+            throws InvalidCommandException, InvalidCommandFormatException {
+        String[] tokens = getTokens(command);
+
+        if (tokens.length < 4) {
+            throw new InvalidCommandFormatException("Invalid command format");
+        }
+
+        String commandName = tokens[0];
+        double operand1 = parseNumber(tokens[1]);
+        double operand2 = parseNumber(tokens[3]);
+
+        Command cmd = new Command(commandName, operand1, operand2);
+        return cmd;
+    }
+
+    public Command parseCommandComplex(String command)
             throws InvalidCommandFormatException, InvalidCommandException {
 
-        command = command.trim().replaceAll("\\s+", " ");
-        String[] tokens = command.toLowerCase().split(" ");
+        String[] tokens = getTokens(command);
         if (tokens.length < 4) {
             throw new InvalidCommandFormatException("Invalid command format.");
         }
 
         String operation = tokens[0];
-        ImmutablePair<Number, Boolean> operand1  = parseNumber(tokens[1]);
-        ImmutablePair<Number, Boolean> operand2 = parseNumber(tokens[3]);
+        ImmutablePair<Number, Boolean> operand1 = parseNumberComplex(tokens[1]);
+        ImmutablePair<Number, Boolean> operand2 = parseNumberComplex(tokens[3]);
+        boolean isIntegerOperation = true;
 
+        Integer intOperand1;
+        Integer intOperand2;
+        Double doubleOperand1;
+        Double doubleOperand2;
 
-        if (!operand1.right) {
+        // determine if we are working with integers or floating point numbers
+        if (!operand1.right || !operand2.right) {
+            isIntegerOperation = false;
         }
-
         Command cmd;
-
-        try {
-            switch (operation) {
-            case "add" -> {
-                cmd = new Command(operation, operand1.get(0), operand2.get(0));
-            }
-            case "subtract" -> {
-                //cmd = new Command(operation, operand1, operand2);
-            }
-            case "multiply" -> {
-//                cmd = new Command(operation, operand1, operand2);
-            }
-            case "divide" -> {
-//                cmd = new Command(operation, operand1, operand2);
-            }
-            default -> {
-                throw new InvalidCommandException(
-                        "Unknown operation. " +
-                                "Please use add, subtract, multiply, or divide.");
-            }
-            }
-        } catch (NumberFormatException e) {
-            throw new InvalidCommandFormatException(
-                    "Invalid numbers. Please ensure you are entering valid integers.");
+        if (isIntegerOperation) {
+            intOperand1 = (Integer) operand1.left;
+            intOperand2 = (Integer) operand2.left;
+            cmd = new Command(operation, intOperand1, intOperand2);
+        } else {
+            doubleOperand1 = (Double) operand1.left;
+            doubleOperand2 = (Double) operand2.left;
+            cmd = new Command(operation, doubleOperand1, doubleOperand2);
         }
         return cmd;
+    }
+
+    private static String[] getTokens(String command) {
+        command = command.trim().replaceAll("\\s+", " ");
+        String[] tokens = command.toLowerCase().split(" ");
+        return tokens;
     }
 
     private boolean isInteger(String number) throws InvalidCommandFormatException {
