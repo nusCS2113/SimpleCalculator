@@ -5,7 +5,7 @@ import com.calc.storage.FileStorage;
 import com.calc.ui.CalculatorUI;
 
 public class CalculatorMain {
-    static HistoryManager historyManager = new HistoryManager();
+    static HistoryManager historyManager;
     static FileStorage fileStorage = new FileStorage("calculator_history.txt");
 
     public static void main(String[] args) {
@@ -13,8 +13,8 @@ public class CalculatorMain {
     }
 
     public static void run() {
-        historyManager = new HistoryManager();
-        CalculatorUI ui = new CalculatorUI(historyManager, fileStorage);
+        historyManager = HistoryManager.getInstance();
+        CalculatorUI ui = new CalculatorUI(fileStorage);
         ui.runRepl();
     }
 }
