@@ -28,6 +28,7 @@ public class CommandHandler {
             } else {
                 historyManager.addRecord(result);
             }
+            fileStorage.saveRecord(result);
         } catch (InvalidCommandFormatException e) {
             throw new InvalidCommandFormatException(e.getMessage());
         } catch (InvalidCommandException e) {
