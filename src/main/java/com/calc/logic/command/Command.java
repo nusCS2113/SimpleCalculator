@@ -18,6 +18,15 @@ public class Command {
         this.operand2 = operand2;
     }
 
+    public Command(String commandWord) throws InvalidCommandException {
+        if (!commandWord.toLowerCase().contains("history")) {
+            throw new InvalidCommandException("Invalid command; expecting history command");
+        }
+        this.operand1 = 0;
+        this.operand2 = 0;
+        this.commandWord = commandWord;
+    }
+
     public String execute() throws InvalidCommandException {
         performCalculation(commandWord, operand1, operand2);
         return record;
