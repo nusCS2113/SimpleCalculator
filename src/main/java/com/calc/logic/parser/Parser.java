@@ -5,9 +5,6 @@ import com.calc.exceptions.InvalidCommandFormatException;
 import com.calc.logic.command.Command;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-import java.util.Arrays;
-
 /**
  * Command parser for the calculator application. This class is responsible for
  * parsing user input commands. Identifying the operation and operands, and
