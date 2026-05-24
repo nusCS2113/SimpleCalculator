@@ -82,7 +82,15 @@ public class Parser {
         }
     }
 
-    private ImmutablePair<Number, Boolean> parseNumber(String number)
+    private double parseNumber(String number) throws InvalidCommandFormatException {
+        try {
+            return Double.parseDouble(number);
+        } catch (NumberFormatException e) {
+            throw new InvalidCommandFormatException("Invalid number format. Please enter a valid number.");
+        }
+    }
+
+    private ImmutablePair<Number, Boolean> parseNumberComplex(String number)
             throws InvalidCommandFormatException {
         try {
             if (isInteger(number)) {
