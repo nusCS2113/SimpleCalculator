@@ -2,24 +2,23 @@ package com.calc.calculator;
 
 public class Calculator {
 
-    public int sum(int a, int b) {
+    public double sum(double a, double b) {
         return a + b;
     }
 
-    public int difference(int a, int b) {
+    public double difference(double a, double b) {
         return a - b;
     }
 
-    public int product(int a, int b) {
+    public double product(double a, double b) {
         return a * b;
     }
 
-    public String fraction(int numerator, int denominator) {
+    public double fraction(double numerator, double denominator) throws ArithmeticException {
         if (denominator == 0) {
             System.out.println("Denom can't be zero");
-            return "Denom 0";
+            throw new ArithmeticException("Denom can't be zero");
         }
-        Fraction fraction = new Fraction(numerator, denominator);
-        return fraction.toString();
+        return numerator / denominator;
     }
 }
