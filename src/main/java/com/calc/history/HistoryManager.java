@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryManager {
-    private final List<String> history = new ArrayList<>();
     private static HistoryManager historyManager;
+    private final List<String> history = new ArrayList<>();
+
+    private HistoryManager() {
+        System.out.println("HistoryManager is a singleton");
+    }
 
     public void addRecord(String record) {
         history.add(record);
@@ -13,10 +17,6 @@ public class HistoryManager {
 
     public List<String> getHistory() {
         return history;
-    }
-
-    private HistoryManager() {
-        System.out.println("HistoryManager is a singleton");
     }
 
     public static HistoryManager getInstance() {
