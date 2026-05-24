@@ -75,4 +75,17 @@ public class Command {
         return record;
     }
 
+    private String getHistory() {
+        HistoryManager historyManager = HistoryManager.getInstance();
+
+        String history = "This session history: \n";
+        if(historyManager.getHistory().size() == 0) {
+            history = "History is empty\n";
+            return history;
+        }
+        for (String historyEntry : historyManager.getHistory()) {
+            history += historyEntry + "\n";
+        }
+        return history;
+    }
 }
