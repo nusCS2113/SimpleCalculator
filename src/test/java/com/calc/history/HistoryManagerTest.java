@@ -2,12 +2,12 @@ package com.calc.history;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HistoryManagerTest {
 
     @Test
-    void addRecord_SingleRecord_SizeOne() {
+    void addRecord_addSingleRecord_expectSizeOne() {
         HistoryManager historyManager = HistoryManager.getInstance();
         historyManager.addRecord("1");
 
