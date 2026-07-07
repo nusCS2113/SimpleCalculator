@@ -8,7 +8,7 @@ public class HistoryManager {
     private final List<String> history = new ArrayList<>();
 
     private HistoryManager() {
-        System.out.println("HistoryManager is a singleton");
+        System.out.println("Singleton instance created");
     }
 
     public void addRecord(String record) {

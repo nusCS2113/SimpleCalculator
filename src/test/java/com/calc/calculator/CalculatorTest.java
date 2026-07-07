@@ -13,32 +13,32 @@ class CalculatorTest {
     }
 
     @Test
-    void difference_TwoPositiveIntegers_ReturnsCorrectDifference() {
+    void difference_twoPositiveIntegers_returnsCorrectDifference() {
         Calculator calc = new Calculator();
 
         assertEquals(5, calc.difference(10, 5));
     }
 
     @Test
-    void difference_SubtractFromZero_ReturnsNegativeNumber() {
+    void difference_subtractFromZero_returnsNegativeNumber() {
         Calculator calc = new Calculator();
         assertEquals(-5, calc.difference(0, 5));
     }
 
     @Test
-    void difference_SubtractFromZero_ReturnsZero() {
+    void difference_subtractFromZero_returnsZero() {
         Calculator calc = new Calculator();
         assertEquals(0, calc.difference(0, 0));
     }
 
     @Test
-    void difference_SubtractLarger_ReturnsNegativeNumber() {
+    void difference_subtractLarger_returnsNegativeNumber() {
         Calculator calc = new Calculator();
         assertEquals(-5, calc.difference(5, 10));
     }
 
     @Test
-    void sum_addZeroToNumber_ExpectNumber() {
+    void sum_addZeroToNumber_expectNumber() {
         Calculator calculator = new Calculator();
         assertEquals(5, calculator.sum(0, 5));
     }

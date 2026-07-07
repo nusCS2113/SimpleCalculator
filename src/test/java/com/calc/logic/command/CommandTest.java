@@ -3,7 +3,7 @@ package com.calc.logic.command;
 import com.calc.exceptions.InvalidCommandException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CommandTest {
 
