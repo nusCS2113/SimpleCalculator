@@ -26,9 +26,10 @@ public class CalculatorUI {
         System.out.println("2. Subtract - Subtracts second number from first: format subtract 5 from 10");
         System.out.println("3. Multiply - Multiplies two numbers: format multiply 3 and 4");
         System.out.println("4. Divide - Divides first number by second: format divide 10 by 2");
-        System.out.println("5. ViewHistory - Displays calculation history");
-        System.out.println("6. Help - Displays help message");
-        System.out.println("7. Exit - Closes the calculator");
+        System.out.println("5. Percentage - Rate from 0 to 100: format percentage 25 of 200");
+        System.out.println("6. ViewHistory - Displays calculation history");
+        System.out.println("7. Help - Displays help message");
+        System.out.println("8. Exit - Closes the calculator");
     }
 
     public void runRepl() {
