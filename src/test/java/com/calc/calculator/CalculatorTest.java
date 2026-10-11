@@ -96,5 +96,90 @@ class CalculatorTest {
         assertThrows(IllegalArgumentException.class, () -> calculator.percentage(200, Double.NEGATIVE_INFINITY));
         assertThrows(IllegalArgumentException.class, () -> calculator.percentage(200, Double.POSITIVE_INFINITY));
     }
+
+    @Test
+    void product_twoPositiveNumbers_returnsProduct() {
+        Calculator calculator = new Calculator();
+        assertEquals(12, calculator.product(3, 4));
+    }
+
+    @Test
+    void product_oppositeSigns_returnsNegativeProduct() {
+        Calculator calculator = new Calculator();
+        assertEquals(-12, calculator.product(-3, 4));
+        assertEquals(-12, calculator.product(3, -4));
+    }
+
+    @Test
+    void product_twoNegativeNumbers_returnsPositiveProduct() {
+        Calculator calculator = new Calculator();
+        assertEquals(12, calculator.product(-3, -4));
+    }
+
+    @Test
+    void product_zeroOperand_returnsZero() {
+        Calculator calculator = new Calculator();
+        assertEquals(0, calculator.product(0, 5));
+        assertEquals(0, calculator.product(5, 0));
+        assertEquals(0, calculator.product(0, 0));
+    }
+
+    @Test
+    void product_decimalOperands_returnsProduct() {
+        Calculator calculator = new Calculator();
+        assertEquals(0.02, calculator.product(0.1, 0.2), 1e-9);
+    }
+
+    @Test
+    void fraction_twoPositiveNumbers_returnsQuotient() {
+        Calculator calculator = new Calculator();
+        assertEquals(5, calculator.fraction(10, 2));
+    }
+
+    @Test
+    void fraction_negativeNumerator_returnsNegativeQuotient() {
+        Calculator calculator = new Calculator();
+        assertEquals(-5, calculator.fraction(-10, 2));
+    }
+
+    @Test
+    void fraction_negativeDenominator_returnsNegativeQuotient() {
+        Calculator calculator = new Calculator();
+        assertEquals(-5, calculator.fraction(10, -2));
+    }
+
+    @Test
+    void fraction_twoNegativeNumbers_returnsPositiveQuotient() {
+        Calculator calculator = new Calculator();
+        assertEquals(5, calculator.fraction(-10, -2));
+    }
+
+    @Test
+    void fraction_zeroNumerator_returnsZero() {
+        Calculator calculator = new Calculator();
+        assertEquals(0, calculator.fraction(0, 5));
+    }
+
+    @Test
+    void fraction_nonDivisibleIntegers_returnsFractionalQuotient() {
+        Calculator calculator = new Calculator();
+        assertEquals(0.4, calculator.fraction(2, 5), 1e-9);
+    }
+
+    @Test
+    void fraction_decimalOperands_returnsQuotient() {
+        Calculator calculator = new Calculator();
+        assertEquals(3, calculator.fraction(0.3, 0.1), 1e-9);
+    }
+
+    @Test
+    void fraction_zeroDenominator_throwsArithmeticException() {
+        Calculator calculator = new Calculator();
+        ArithmeticException exception = assertThrows(ArithmeticException.class,
+                () -> calculator.fraction(5, 0));
+        assertEquals("Denom can't be zero", exception.getMessage());
+        assertThrows(ArithmeticException.class, () -> calculator.fraction(5, -0.0));
+        assertThrows(ArithmeticException.class, () -> calculator.fraction(0, 0));
+    }
 }
 
