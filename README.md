@@ -1,2 +1,2 @@
 # SimpleCalculator
-A simple Java progragm to demonstrate CI, testing, and coverage concepts
+A simple Java program to demonstrate CI, testing, and coverage concepts.
