@@ -55,11 +55,16 @@ public class Command {
             case "divide" -> {
                 result = calculator.fraction(a, b);
             }
+            case "percentage" -> {
+                result = calculator.percentage(b, a);
+            }
             default -> {
                 throw new InvalidCommandException("Unknown command: " + operation);
             }
             }
             this.record = encodeResult(operation, a, b, result);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidCommandException(e.getMessage());
         } catch (ArithmeticException e) {
             System.out.println("\nError: " + e.getMessage());
         }
@@ -86,6 +91,9 @@ public class Command {
         }
         case "divide" -> {
             record += a + " / " + b + " = " + recordResult;
+        }
+        case "percentage" -> {
+            record += a + "% of " + b + " = " + recordResult;
         }
         default -> {
             throw new InvalidCommandException("Unknown command: " + operation);
