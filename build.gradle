@@ -2,7 +2,12 @@ plugins {
     id 'java'
     id 'application'
     id 'checkstyle'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.gradleup.shadow' version '9.5.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 repositories {
@@ -10,8 +15,13 @@ repositories {
 }
 
 dependencies {
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
+    String jUnitVersion = '5.14.4'
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jUnitVersion}"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.14.4'
+
     implementation("org.apache.commons:commons-lang3:3.20.0")
 }
 
@@ -19,27 +29,27 @@ test {
     useJUnitPlatform()
 
     testLogging {
-        events "passed", "skipped", "failed"
+        events 'passed', 'skipped', 'failed'
 
         showExceptions = true
-        exceptionFormat = "full"
+        exceptionFormat = 'full'
         showCauses = true
         showStackTraces = true
         showStandardStreams = false
     }
 }
 
+
 application {
     mainClass.set("com.calc.CalculatorMain")
 }
 
 shadowJar {
-    archiveBaseName.set("calculator")
-    archiveClassifier.set("")
+    archiveFileName = 'SimpleCalculator.jar'
 }
 
 checkstyle {
-    toolVersion = '10.2'
+    toolVersion = '14.1.0'
 }
 
 run{
