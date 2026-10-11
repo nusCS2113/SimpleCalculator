@@ -15,6 +15,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
  * - "subtract 5 from 10"
  * - "multiply 3 and 4"
  * - "divide 10 by 2"
+ * - "percentage 25 of 200"
  * <p>
  * Identifies invalid commands and provides feedback to the user, such as
  * "Invalid command. Please try again."
